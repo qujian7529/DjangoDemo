@@ -50,7 +50,7 @@ views.py:
        
        # Django个人博客　
        def index(request):
-         return HttpResponse('<h1>Hello World</h1>')
+         return HttpResponse('Hello World')
 
 
        # 电影
@@ -79,4 +79,30 @@ views.py:
 
        # 注销
        def loginout(request):
-	       return
+	       return
+#### 6.本地静态路径static
+settings.py:
+
+	# 本地文件引入  路径拼接
+	STATICFILES_DIRS = [
+    		os.path.join(BASE_DIR,'static'),
+	]
+模板：
+
+	TEMPLATES = [
+	{ 
+		...
+		'DIRS': [
+            		os.path.join(BASE_DIR,'templates'),
+        	],
+	},
+	]
+html:
+
+	{% load static %}
+	<img  src="{% static 'images/1.jpg' %}" />
+运行测试
+
+#### 7.login
+filmapp目录下新建forms.py文件，将需要form验证的数据在此
+forms  [http://www.cnblogs.com/btchenguang/archive/2012/08/27/2658598.html]
