@@ -218,18 +218,18 @@
 		    <!-- Collect the nav links, forms, and other content for toggling -->
 		    <div class="collapse navbar-collapse" id="navbar-brand-centered">
 		      <ul class="nav navbar-nav">
-		        <li><a href="/1">电影推荐</a></li>
-		        <li><a href="/2">技术达人</a></li>
+		        <li><a href="/film">电影推荐</a></li>
+		        <li><a href="/technology">技术达人</a></li>
 		      </ul>
 		      <ul class="nav navbar-nav navbar-right">
-		        <li><a href="/3">我的生活</a></li>
-		        <li><a href="/4">旅游心情</a></li>		        
+		        <li><a href="/tourism">我的生活</a></li>
+		        <li><a href="/life">旅游心情</a></li>		        
 		      </ul>
 		    </div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-fluid -->
 		</nav>
 	<!-- Django个人博客 -->
-	{% if indexs == '0' %}
+	{% if indexs == '' %}
 	
 		<div class="w row" style="color:#fff;border:1px solid #5BDBC9;height:600px;width: 60%;background-color: transparent;
 		margin-top:100px;" id="bodys">
@@ -287,7 +287,7 @@
 
 
 	<!-- 电影 -->
-	{% elif  indexs == '1' %}
+	{% elif  indexs == 'film' %}
 	  <div class="row" id="myCarousel" style="background-color: #000">
 	  	  <div class="col-md-2"></div>
 
@@ -389,11 +389,12 @@
 	 
 
 	<!-- 技术达人 -->
-	{% elif indexs == '2' %}
+	{% elif indexs == 'technology' %}
 	 <div class=" w row">
 	 	<div class="col-md-12" style="color:#fff">
 	 		<ul>
 	 			<li>
+	 				<a href="/technology/1" >
 	 				<div style="height: 200px;width: 100%;border-top:3px solid red;border-bottom: 1px solid #ccc;">
 	 					<div style="height: 400px;width: 100%;background-color: #21CCA3">图片</div>
 	 					<h1>主题部分</h1>
@@ -409,6 +410,7 @@
 	 					</div>
 	 					
 	 				</div>
+	 				</a>
 	 			</li>
 	 		</ul>
 	 	</div>
@@ -451,11 +453,11 @@
 	 </div>
 
 	<!-- 我的生活 -->
-	{% elif indexs == '3' %}
+	{% elif indexs == 'tourism' %}
 	<p style="	color:#fff;">3333</p>
 	 <!-- 置顶键 -->
 	 <!-- 旅游心情 -->
-	{% elif indexs == '4' %}
+	{% elif indexs == 'life' %}
 	<p>4444</p>
 	{% endif %}
 	<div id="tops"></div>
