@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Document</title>
+     <link rel="shortcut icon" href="https://assets-cdn.github.com/favicon.ico">	
+	 <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
+	 <link href="https://cdn.bootcss.com/jquery-mobile/1.4.5/jquery.mobile.css" rel="stylesheet">
+	
+	<style>
+		/* @keyframes change-background {
+	      0% {
+	        background: #69b7eb;
+	      }
+	      50% {
+	        background: #b3dbd3;
+	      }
+	      100% {
+	        background: #f4d6db;
+	      }
+	    }*/
+	    html,body {
+  	       animation: change-background 4s linear infinite;
+	       width:100%;
+           height:100%;
+           margin:0px;
+           padding:0px;
+	    }
+	    {% load static %}
+	    @font-face {
+		    font-family: 'bruxregular';
+		    src: url('{% static 'font/webfontkit/brux-regular-webfont.woff2' %}'),
+		         url('{% static 'font/webfontkit/brux-regular-webfont.woff' %}');
+		    font-weight: normal;
+		    font-style: normal;
+
+		}
+		*{
+			margin:0;
+			padding: 0;
+			font-family: 'bruxregular';
+		}
+		.w{
+			width: 1240px;
+			margin: 0px auto;
+		}
+		.navbar{
+			background-color: rgba(1,1,1,0);
+			border:none;
+		}
+		.navbar-brand-centered {
+	        position: absolute;
+	        left: 50%;
+	        display: block;
+	        width: 160px;
+	        text-align: center;
+	        background-color: transparent;
+	    }
+	    .navbar>.container .navbar-brand-centered, 
+	    .navbar>.container-fluid .navbar-brand-centered {
+	        margin-left: -80px;
+	    }
+		
+		.item{
+			width: 100%;
+			height: 500px;
+		}
+		
+
+		body {
+		 	padding-top: 20px;
+
+		 	background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCI+CjxmaWx0ZXIgaWQ9Im4iPgo8ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjciIG51bU9jdGF2ZXM9IjEwIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIj48L2ZlVHVyYnVsZW5jZT4KPC9maWx0ZXI+CjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWxsPSIjMDAwIj48L3JlY3Q+CjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWx0ZXI9InVybCgjbikiIG9wYWNpdHk9IjAuNCI+PC9yZWN0Pgo8L3N2Zz4=");;
+		 }
+		#myCarousel .nav a small {
+		    display:block;
+		}
+		#myCarousel .nav {
+			background:#eee;
+		}
+		#myCarousel .nav a {
+		    border-radius:0px;
+		}
+		#tops{
+			height: 75px;
+			width: 75px;
+			background-color: #42C7B9;
+			position: fixed;
+			right: 0;
+			bottom: 30px;
+			margin-right: -75px;
+			transition: margin-right 0.8s;
+		}
+		.box {
+            width: 1226px;
+            height: 460px;
+            margin: 50px auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .image {
+            height: 460px;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .image li {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          transition: all 0.5s linear;
+          z-index: -1;
+          opacity: 0;
+        }
+
+        .image li.current {
+          z-index: 0;
+          opacity: 1;
+        }
+
+        .point {
+          position: absolute;
+          right: 10px;
+          bottom: 55px;
+        }
+	
+        .point span {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin-right: 5px;
+            background: gray;
+            border-radius: 50%;
+            cursor: pointer;
+
+        }
+
+        .point span.current {
+            background: #fff;
+        }
+        .monomer1{
+			position: relative;
+        	transition: all 0.5s linear;
+        	background: #3AD0C2;
+        	height: 300px;
+        	border:1px solid #18217B;
+        	background-size: 232px 300px;
+        }
+    	.monomer1:nth-child(1),.monomer1:nth-child(1) .neirong::before{
+    		background:url('{% static 'images/10.jpg' %}') 0 / cover ;
+    	}
+    	.monomer1:nth-child(2),.monomer1:nth-child(2) .neirong::before{
+    		background:url('{% static 'images/11.jpg' %}') 0/ cover;
+    	}
+    	.monomer1:nth-child(3),.monomer1:nth-child(3) .neirong::before{
+    		background:url('{% static 'images/12.jpg' %}') ;
+    	}
+    	.monomer1:nth-child(4),.monomer1:nth-child(4) .neirong::before{
+    		background:url('{% static 'images/13.jpg' %}') 0 / cover ;
+    	}
+    	.monomer1:nth-child(5),.monomer1:nth-child(5) .neirong::before{
+    		background:url('{% static 'images/14.jpg' %}') 0 / cover ;
+    	}
+    	.monomer1:nth-child(6),.monomer1:nth-child(6) .neirong::before{
+    		background:url('{% static 'images/15.jpg' %}') 0 / cover ;
+    	}
+		.monomer1:hover{
+			filter:none !important;
+		}
+		.neirong{
+			margin:20px auto;
+			height:260px;
+			width:75%;
+			position: relative;
+			background:hsla(0,0%,100%,.3);
+			overflow: hidden;
+			opacity: 0;
+			transition: all .8s linear;
+			
+		}
+
+		.neirong::before {
+			content: '';
+			position: absolute;
+			top: 0; right: 0; bottom: 0; left: 0;
+			filter: blur(20px);
+			margin: -30px;
+		}
+	</style>
+</head>
+<body>
+	<!-- 导航 -->
+	  <nav class="navbar navbar-default" role="navigation">
+		  <div class="container">
+		    <!-- Brand and toggle get grouped for better mobile display -->
+		    <div class="navbar-header">
+		      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-brand-centered">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		      </button>
+		      <div class="navbar-brand navbar-brand-centered" style="font-size: 25px;width: 250px;margin-left: -120px" >
+		      	<a href="/0" >Django个人博客</a>
+		      </div>
+		    </div>
+
+		    <!-- Collect the nav links, forms, and other content for toggling -->
+		    <div class="collapse navbar-collapse" id="navbar-brand-centered">
+		      <ul class="nav navbar-nav">
+		        <li><a href="/1">电影推荐</a></li>
+		        <li><a href="/2">技术达人</a></li>
+		      </ul>
+		      <ul class="nav navbar-nav navbar-right">
+		        <li><a href="/3">我的生活</a></li>
+		        <li><a href="/4">旅游心情</a></li>		        
+		      </ul>
+		    </div><!-- /.navbar-collapse -->
+		  </div><!-- /.container-fluid -->
+		</nav>
+	<!-- Django个人博客 -->
+	{% if indexs == '0' %}
+	
+		<div class="w row" style="color:#fff;border:1px solid #5BDBC9;height:600px;width: 60%;background-color: transparent;
+		margin-top:100px;" id="bodys">
+			<div class="row"  >
+				<div class="col-md-4" style="background-color: transparent;height: 200px;border:1px solid #79E733">
+					<div class="row">
+							<div class="col-md-6" style="background-color: transparent;background:url('{% static '/images/001.jpg' %}');height: 100px;border:1px solid #79E733"></div>
+							<div class="col-md-6" style="background-color: transparent;background:url('{% static '/images/001.jpg' %}');height: 100px;border:1px solid #79E733"></div>		
+					</div>
+					<div class="row">
+							<div class="col-md-6" style="background-color: transparent;background:url('{% static '/images/001.jpg' %}');height: 100px;border:1px solid #79E733"></div>
+							<div class="col-md-6" style="background-color: transparent;background:url('{% static '/images/001.jpg' %}');height: 100px;border:1px solid #79E733"></div>		
+					</div>
+					
+				</div>
+				<div class="col-md-4" style="background-color: transparent;height: 200px;border:1px solid #79E733">
+					<div class="row">
+							<div class="col-md-6" style="background-color: transparent;background:url('{% static '/images/001.jpg' %}');height: 100px;border:1px solid #79E733"></div>
+							<div class="col-md-6" style="background-color: transparent;background:url('{% static '/images/001.jpg' %}');height: 100px;border:1px solid #79E733"></div>		
+					</div>
+					<div class="row">
+							<div class="col-md-6" style="background-color: transparent;background:url('{% static '/images/001.jpg' %}');height: 100px;border:1px solid #79E733"></div>
+							<div class="col-md-6" style="background-color: transparent;background:url('{% static '/images/001.jpg' %}');height: 100px;border:1px solid #79E733"></div>		
+					</div>
+					
+				</div>
+					<div class="col-md-4" style="background-color: transparent;height: 200px;border:1px solid #79E733">
+					<div class="row">
+							<div class="col-md-6" style="background-color: transparent;height: 100px;border:1px solid #79E733"></div>
+							<div class="col-md-6" style="background-color: transparent;height: 100px;border:1px solid #79E733"></div>			
+					</div>
+					<div class="row">
+							<div class="col-md-6" style="background-color: transparent;height: 100px;border:1px solid #79E733"></div>
+							<div class="col-md-6" style="background-color: transparent;height: 100px;border:1px solid #79E733"></div>			
+					</div>
+					
+				</div>
+
+				
+			</div>
+			<div class="row"  >
+				<div class="col-md-4" style="background-color: #736464;height: 200px;border:1px solid #79E733"></div>
+
+				<div class="col-md-4" style="background-color: #736464;height: 200px;border:1px solid #79E733"></div>		
+				<div class="col-md-4" style="background-color: #736464;height: 200px;border:1px solid #79E733"></div>
+			</div>
+			<div class="row"  >
+				<div class="col-md-4" style="background-color: #736464;height: 200px;border:1px solid #79E733"></div>
+
+				<div class="col-md-4" style="background-color: #736464;height: 200px;border:1px solid #79E733"></div>		
+				<div class="col-md-4" style="background-color: #736464;height: 200px;border:1px solid #79E733"></div>
+			</div>
+	
+		</div>
+
+
+	<!-- 电影 -->
+	{% elif  indexs == '1' %}
+	  <div class="row" id="myCarousel" style="background-color: #000">
+	  	  <div class="col-md-2"></div>
+
+		  {% load static %}
+		  <div class="box col-md-8" id="box-id" style="margin-bottom: 0" >			
+		  	
+			
+		       <ul class="image" id="img-id">
+		           <li class="current "><a href="#"><img src="{% static 'images/01.jpg' %}" alt=""></a></li>
+		           <li><a href="# "><img src="{% static 'images/02.jpg' %}" alt=""></a></li>
+		           <li><a href="#"><img src="{% static 'images/03.jpg' %}" alt=""></a></li>
+		           <li><a href="#"><img src="{% static 'images/04.jpg' %}" alt=""></a></li>
+		           <li><a href="#"><img src="{% static 'images/05.jpg' %}" alt=""></a></li>
+		       </ul>
+		       <div class="point" id="point-id"></div>
+
+			  </div>
+		  <div class="col-md-2"></div>
+	 </div>
+	
+	 <!-- 类型1 -->
+	 <div >
+	 	<div style="height: 70px;line-height: 70px;background-image: linear-gradient(to right, #000, transparent);">
+	 	<div style="color:#fff;padding-left: 20px;">类型1</div>
+		 </div>
+		 <div>
+		 	<div class="row" id="leixing1">
+		 		<div class="col-md-2 monomer1" >
+		 			<div class="neirong" >
+		 				<div style="position: relative;text-align: center;">
+		 					<p >电影名：花开目心圆</p>
+		 					<p >简介：The eyes are round and round</p>
+		 					<p>时间：1995</p>
+		 					<p>作者：艾水水</p>
+		 				</div>
+		 				
+		 			</div>
+		 		</div>
+	 			<div class="col-md-2 monomer1" >
+	 				<div class="neirong" >
+		 				
+		 			</div>
+	 			</div>	
+	 			<div class="col-md-2 monomer1" >
+	 				<div class="neirong" >
+		 				
+		 			</div>
+	 			</div>
+	 			<div class="col-md-2 monomer1" >
+	 				<div class="neirong" >
+		 				
+		 			</div>
+	 			</div>	
+	 			<div class="col-md-2 monomer1" >
+	 				<div class="neirong" >
+		 				
+		 			</div>
+	 			</div>
+				<div class="col-md-2 monomer1" >
+					<div class="neirong" >
+		 				
+		 			</div>
+				</div>	
+			</div>
+			
+		 </div>
+	 </div>
+	  <div >
+	 	<div style="height: 70px;line-height: 70px;background-image: linear-gradient(to right, #000, transparent);">
+	 	<div style="color:#fff;padding-left: 20px;">类型1</div>
+		 </div>
+		 <div>
+		 	<div class="row">
+		 		<div class="col-md-2 monomer2" style="background: #3AD0C2;height: 300px;border:1px solid #18217B">
+		 			<img src="{% static 'images/11.jpg' %}" alt="" style="height:300px;width:232px;
+		 			">
+		 		</div>
+		 		<div class="col-md-2 monomer2" style="background: #3AD0C2;height: 300px;border:1px solid #18217B">
+		 			<img src="{% static 'images/11.jpg' %}" alt="" style="height:300px;width:232px ; ">
+		 			
+		 		</div>
+		 		<div class="col-md-2 monomer2" style="background: #3AD0C2;height: 300px;border:1px solid #18217B">
+		 			<img src="{% static 'images/11.jpg' %}" alt="" style="height:300px;width:232px ; ">
+		 		</div>
+		 		<div class="col-md-2 monomer2" style="background: #3AD0C2;height: 300px;border:1px solid #18217B">
+		 			<img src="{% static 'images/11.jpg' %}" alt="" style="height:300px;width:232px ; ">
+		 		</div>
+		 		<div class="col-md-2 monomer2" style="background: #3AD0C2;height: 300px;border:1px solid #18217B">
+		 			<img src="{% static 'images/11.jpg' %}" alt="" style="height:300px;width:232px ; ">
+		 		</div>
+		 		<div class="col-md-2 " style="background: #3AD0C2;height: 300px;border:1px solid #18217B">
+		 			<img src="{% static 'images/11.jpg' %}" alt="" class="monomer" style="height:300px;width:232px ; ">
+		 		</div>
+			</div>
+			
+		 </div>
+	 </div>
+	 
+	 
+
+	<!-- 技术达人 -->
+	{% elif indexs == '2' %}
+	 <div class=" w row">
+	 	<div class="col-md-12" style="color:#fff">
+	 		<ul>
+	 			<li>
+	 				<div style="height: 200px;width: 100%;border-top:3px solid red;border-bottom: 1px solid #ccc;">
+	 					<div style="height: 400px;width: 100%;background-color: #21CCA3">图片</div>
+	 					<h1>主题部分</h1>
+	 					<div class="row">
+	 						<div class="col-md-2">
+	 							<div><span>日期</span><span>评论</span></div>
+	 							<div><span>链接</span></div>
+	 						</div>
+	 						<div class="col-md-10">
+	 							<div>简介</div>
+	 							
+	 						</div>
+	 					</div>
+	 					
+	 				</div>
+	 			</li>
+	 		</ul>
+	 	</div>
+	 	{%for article in article_list %}
+		{{article}}
+		{% endfor %}
+	 	<nav aria-label="">
+			  <ul class="pagination">
+			  	{% if article_list.has_previous %}
+			    <li >  
+			        <span aria-hidden="true"><a href="?page={{article_list.previous_page_number}}">Previous</a></span>
+			    </li>
+			    {% else %}
+			    <li >  
+			        <span aria-hidden="true">Previous</span>
+			    </li>
+				{% endif %}
+			    <li class="active">
+			      <span><a href="">1</a></span>
+			     
+			    </li>
+			     <li class="">
+			      <span>2</span>
+			     
+			    </li>
+			     <li class="">
+			      <span>3 </span>			     
+			    </li>
+			    {% if article_list.has_next %}
+			    <li >  
+			        <span aria-hidden="true"><a href="/page/?page={{article_list.next_page_number}}">next</a></span>
+			    </li>
+			    {% else %}
+			     <li >  
+			        <span aria-hidden="true">next</span>
+			    </li>
+			    {% endif %}
+			  </ul>
+		</nav>
+	 </div>
+
+	<!-- 我的生活 -->
+	{% elif indexs == '3' %}
+	<p style="	color:#fff;">3333</p>
+	 <!-- 置顶键 -->
+	 <!-- 旅游心情 -->
+	{% elif indexs == '4' %}
+	<p>4444</p>
+	{% endif %}
+	<div id="tops"></div>
+
+
+
+	
+
+	<script src="https://cdn.bootcss.com/jquery/2.1.0/jquery.js"></script>
+	<script>
+		// 轮播测试   随机的颜色
+		function Color(){
+			this.r = Math.floor(Math.random()*255);
+		    // this.g = Math.floor(Math.random()*255);
+		    // this.b = Math.floor(Math.random()*255);
+		    // this.color = 'rgba('+ this.r +','+ this.g +','+ this.b +',0.8)';
+
+		    this.color = 'sepia(1) saturate(4) hue-rotate('+ this.r +'deg)';
+		    console.log(this.color);
+		   return this.color
+		}
+
+		//图片滤镜
+		$('.monomer1').css('filter',color)
+		for(let i = 0;i<6;i++){
+				var color = Color()
+				
+				$('.monomer1').eq(i).css('filter',color)		
+		}
+		$('.monomer1').hover(function(){
+			$(this).find('.neirong').css('opacity','1')
+		},function(){
+				$(this).find('.neirong').css('opacity','0')
+		})
+		// $('.monomer1').hover(function(){
+		// 	console.log('11111')
+		// 	$(this).toggleClass('Filenone')
+		// },function(){
+		// 	$(this).toggleClass('Filenone')
+		// })
+		
+		   	// $('.item').eq(i).css('background-color',color)
+		
+		
+		
+		
+
+		var clickEvent = false;
+		$('#myCarousel .nav a').on('click', function() {
+				console.log(this)
+				clickEvent = true;
+				$('.nav li').removeClass('active');
+				$('.nav li').parent().addClass('active');
+				console.log($(this).prop('data'))			
+		}).on('', function(e) {
+			if(!clickEvent) {
+				var count = $('.nav').children().length -1;
+				var current = $('.nav li.active');
+				current.removeClass('active').next().addClass('active');
+				var id = parseInt(current.data('slide-to'));
+				if(count == id) {
+					$('.nav li').first().addClass('active');	
+				}
+			}
+			clickEvent = false;
+		});
+		
+
+
+		// 置顶
+		var _line = parseInt($(window).height()/3)
+		$(window).scroll(function(){
+			if($(window).scrollTop() > 730 ){
+				console.log('1111')
+				$('#tops').css('margin-right','0px')
+			}else{
+				console.log('22222')
+				$('#tops').css('margin-right','-75px')
+			}
+		})
+	
+		var box = $("#box-id");
+
+		var images = $("#img-id");
+		var imgWidth = box.width();
+
+		var lis = images.children();
+
+		var point = $("#point-id");
+		for (var i = 0; i < lis.length; i++){
+		  $("<span >").appendTo(point);
+		}
+
+		var spans = point.children();
+		spans.eq(0).addClass("current");
+
+		var timer = null;
+		var ul_num = 0, span_num = 0;//用于控制要播放那张图片的索引
+
+		for (var i = 0; i < spans.length; i++){
+		  spans.eq(i).on("click", i, function(event){
+		    $(this).addClass("current").siblings('span').removeClass("current");
+		    
+		    // lis.eq(event.data).fadeIn().siblings("li").fadeOut();
+
+		    lis.eq(event.data).addClass("current").siblings("li").removeClass("current");
+		    ul_num = span_num = event.data ;//让点击播放和自动播放关联起来
+		  });
+		}
+
+
+		timer = setInterval(play, 4000);
+		function play(){
+		  ul_num++;
+		  if (ul_num > spans.length - 1){
+		    ul_num = 0;
+		  }
+
+		  lis.eq(ul_num).addClass("current").siblings("li").removeClass("current");
+
+		  span_num++;
+		  if (span_num > spans.length - 1){
+		    span_num = 0;
+		  }
+		  spans.eq(span_num).addClass("current").siblings('span').removeClass("current");
+		}
+
+		box.hover(function(){
+		  clearInterval(timer);
+		}, function(){
+		  timer = setInterval(play, 4000);
+		});
+
+
+		
+	</script>
+	{% if indexs == '0' %}
+	<script>
+
+		// 主页图
+		let wh = window.innerHeight/2;
+		ww = window.innerWidth/2;	
+		img = document.getElementById('bodys');
+
+		function sway(xPos,yPos){
+			img.style.transform = 'rotateX(' + (yPos - wh)/ 25 + 'deg) rotateY('+(xPos - ww)/25 + 'deg)';
+		}	
+		document.addEventListener('mousemove',function(e){
+			sway(e.clientX,e.clientY);
+		})
+		document.addEventListener('touchmove',function(e){
+			e.preventDefault();
+			var touch =e.targetTouches[0];
+			if(touch){
+				sway(touch.pageX,touch.pageY);
+			}
+		})
+	</script>
+	{% endif %}
+</body>
+</html>

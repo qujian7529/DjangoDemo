@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>游客留言登录界面</title>
+	<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
+	<style>
+		
+	    {% load static %}
+	    html,body {
+	       background: url('{% static 'images/fj.jpg' %}') no-repeat 0 / cover fixed;
+	       height: 100%;
+	       width: 100%;
+	       overflow: hidden;
+  	       
+
+  	   }
+		.cent{
+			position:relative;
+			margin: 30px 0 30px 0;
+			/* 启用弹性盒布局 */
+            display: flex;
+            /* 使子元素水平居中 */
+            justify-content: center;
+		}
+		.Headportrait{
+			border-radius: 50%;
+			height: 280px;
+			width: 280px;
+			border:1px solid #2CBDC8;
+			margin-left: .file.width - 140px;
+		}
+		.inputfor{
+			padding:35px 20px;
+		}
+		.inputwid{
+			width: 64%;
+		}
+
+		.trybody{
+			padding: 0;
+			/*opacity: .4;*/
+			border-radius: 1%;
+			position: relative;
+			background: hsla(0,0%,100%,.3);
+			overflow: hidden;
+		}
+		.trybody::before {
+			background: url('{% static 'images/fj.jpg' %}') 0 / cover fixed;
+			content: '';
+			position: absolute;
+			top: 0; right: 0; bottom: 0; left: 0;
+			filter: blur(5px);
+			margin: -30px;
+
+		}
+		.prompt{
+			position: relative;
+			color: #fff;
+		}
+	</style>
+</head>
+<body>
+	<div class="row " style="margin: 150px auto">
+		<div class="col-md-3"></div>
+		<div class="col-md-6 trybody" >
+			<form action="" method="post">
+				{% csrf_token %}
+				<!-- <div class="file cent" >
+				  <label  class="Headportrait">
+				    <input type="file" value="" style="display: none" >
+				  </label>
+				</div> -->
+				<div class="form-group cent" >
+
+				    <label for="exampleInputEmail1" class="sr-only">Email address</label>
+				    <input type="text" class="form-control inputfor inputwid" id="exampleInputEmail1" placeholder="Useranme" name="username" >
+				
+				</div>
+					{% if error.nameerr != '' %}
+						<p class="prompt">{{error.nameerr}}</p>
+					{% endif %}
+				<div class="form-group cent" >
+
+				    <label for="exampleInputPassword1" class="sr-only">Password</label>
+				    <input type="password" class="form-control inputfor inputwid" id="exampleInputPassword1" placeholder="Password " name="password"  >
+					
+				</div>
+					{% if error.passerr != '' %}
+						<p class="prompt">{{error.passerr}}</p>
+					{% endif %}
+				<!-- <div class="form-group" style="position: relative;">
+				    <label for="exampleInputFile" class="sr-only">File input</label>
+				    <div style="border-radius:  50%;height: 280px;width: 280px;border:1px solid #2CBDC8" class="center-bolck;">
+				    	
+				    </div>
+					    <input type="file" id="exampleInputFile" style="position: absolute;">
+				</div> -->
+				
+
+				<div class="cent">
+					<button type="submit"  class="btn btn-primary btn-lg btn-block inputwid but"  >登录</button>
+					
+				</div>
+				
+				<p class="prompt">{{judge}}</p>
+				<p class="prompt">{{userform}}</p>
+			</form>
+		</div>
+	<div class="col-md-3"></div>
+
+	</div>
+	<script src="https://cdn.bootcss.com/jquery/2.1.0/jquery.js"></script>
+	<script>
+
+		
+	</script>
+</body>
+</html>

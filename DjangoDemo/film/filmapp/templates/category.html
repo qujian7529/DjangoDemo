@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div>
+		<a href="/filmapp/category/1">a1</a>
+	</div>
+	<div>
+		<a href="/filmapp/category/2">a2</a>
+	</div>
+	<div>
+		<a href="/filmapp/category/3">a3</a>
+	</div>
+	<div>
+	{% if offset == '1' %}
+		<p>a1 o</p>
+	{% elif offset == '2' %}
+		<p>a2 o</p>
+	{% elif offset == '3' %}
+		<p>a3 o</p>
+	{% endif %}
+	</div>
+</body>
+</html>
