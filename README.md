@@ -103,6 +103,97 @@ html:
 	<img  src="{% static 'images/1.jpg' %}" />
 运行测试
 
-#### 7.login
+#### 7.登录注册的详写
+forms.py:
+
+	class LoginForm(forms.Form):
+	username = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Username", "required": "required",}),max_length=50,error_messages={"required": "username不能为空",})
+	password = forms.CharField(widget=forms.PasswordInput(attrs={"placeholder": "Password", "required": "required",}),	max_length=20,error_messages={"required": "password不能为空",})
+
+	class RegisterForm(forms.Form):
+	username = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Username", "required": "required",}),max_length=30,error_messages={"required": "username不能为空",})
+
+	email = forms.EmailField(widget=forms.TextInput(attrs={"placeholder": "Email", "required": "required",}),max_length=50,error_messages={"required": "email不能为空",})
+
+	password = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Password", "required": "required",}),max_length=30,error_messages={"required": "password不能为空",})
+views.py:
+
+	from filmapp.forms import LoginForm,RegisterForm
+	from filmapp.models import User
+	from django.contrib import auth
+	from django.contrib.auth.hashers import make_password
+	from django.views.decorators.csrf import csrf_exempt,csrf_protect
+	# 注册
+	@csrf_exempt
+	def register(request):
+		if request.method == 'POST':
+			register_form = RegisterForm(request.POST)
+			print register_form
+			if register_form.is_valid():
+				print '+++++++++++++++++++++++'
+				user = User.objects.create(
+			    username=register_form.cleaned_data["username"],
+			    email=register_form.cleaned_data["email"],
+			    # 用户明文提交，不过我们是以加密形式保存密码，就用django提供的密码加密方法，这里用它默认的加密方式
+			    password=make_password(register_form.cleaned_data["password"]),)
+				user.save()
+				return redirect(request.META['HTTP_REFERER'])
+			else:
+				return HttpResponse('失败的操作')	
+
+		print '--------------------------------'
+		return render(request,'register.html',locals())
+		
+	# 登录
+	@csrf_exempt
+	def login(request):
+	if  request.method == 'POST':
+		login_form = LoginForm(request.POST)
+		# 是否是有效的对象句柄
+		if login_form.is_valid():
+			username = login_form.cleaned_data['username']
+			password = login_form.cleaned_data['password']
+			user = auth.authenticate(username = username,password = password)
+			# 未找到用户
+
+			if user is not None:
+				return render(request,'login.html',{'logerr':'登录验证失败'})
+			# 找到用户
+			else:
+				return HttpResponseRedirect(request.GET.get('next','/'))
+		
+		else:
+			return HttpResponse('失败的操作')	
+	# 如果不是post提交就跳转到登录页面
+	# 未post请求
+	else:
+		login_form = LoginForm()
+	return  render(request,'login.html',locals())
+	# 注销
+	def loginout(request):
+	try:
+		# django提供注销功能
+		logout(request)
+	except Exception as e:
+		print e
+	return redirect()
+models.py:
+
+	class User(models.Model):
+		#头像用图片类型
+		avatar = models.ImageField(\
+		upload_to='avatar/%Y/%m', default='avatar/default.png', \
+		max_length=200, blank=True, null=True, verbose_name='用户头像')
+
+		username = models.CharField(max_length =\
+				     30,blank=True,null=True,verbose_name='用户名')
+		password = models.CharField(max_length=100,blank=True,null=True,verbose_name='密码')
+		email = models.EmailField(max_length=50,blank=True,null=True,verbose_name='邮箱地址')
+		class Meta:
+			verbose_name = '游客'
+			verbose_name_plural = verbose_name
+			ordering = ['-id']
+		def __unicode__(self):
+			return self.username
 filmapp目录下新建forms.py文件，将需要form验证的数据在此
 forms  [http://www.cnblogs.com/btchenguang/archive/2012/08/27/2658598.html]
