@@ -197,3 +197,116 @@ models.py:
 			return self.username
 filmapp目录下新建forms.py文件，将需要form验证的数据在此
 forms  [http://www.cnblogs.com/btchenguang/archive/2012/08/27/2658598.html]
+
+#### 8.对页面路由的规整
+
+urls.py:
+
+	urlpatterns = [
+		url(r'^$',index),
+		url(r'^(?P<indexs>\D[a-z]{0,20})/$',index),
+	
+	]
+
+views.py:
+	
+	def index(request,indexs = ''):
+		return render(request,'index.html',locals())
+
+html:
+
+	<!-- 导航 -->
+	<nav class="navbar navbar-default" role="navigation">
+		  <div class="container">
+		    <!-- Brand and toggle get grouped for better mobile display -->
+		    <div class="navbar-header">
+		      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-brand-centered">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		      </button>
+		      <div class="navbar-brand navbar-brand-centered" style="font-size: 25px;width: 250px;margin-left: -120px" >
+		      	<a href="/0" >Django个人博客</a>
+		      </div>
+		    </div>
+
+		    <!-- Collect the nav links, forms, and other content for toggling -->
+		    <div class="collapse navbar-collapse" id="navbar-brand-centered">
+		      <ul class="nav navbar-nav">
+		        <li><a href="/film">电影推荐</a></li>
+		        <li><a href="/technology">技术达人</a></li>
+		      </ul>
+		      <ul class="nav navbar-nav navbar-right">
+		        <li><a href="/tourism">我的生活</a></li>
+		        <li><a href="/life">旅游心情</a></li>		        
+		      </ul>
+		    </div><!-- /.navbar-collapse -->
+		  </div><!-- /.container-fluid -->
+	</nav>
+使这几个页面能点击跳转
+#### 9.实现简单评论
+
+forms.py:
+
+	class CommentForm(forms.Form):
+
+	# 评论
+	content = forms.CharField(widget=forms.Textarea(attrs={"id":"comment","class": "message_input",
+                                                           "required": "required", "cols": "25",
+                                                           "rows": "5", "tabindex": "4"}),
+                                                    error_messages={"required":"评论不能为空",})
+models.py:
+	
+	# 文章
+	class Article(models.Model):
+		# 文章标题
+		title = models.CharField(max_length=50, verbose_name='文章标题')
+		# 描述
+		desc = models.CharField(max_length=50, verbose_name='文章描述')
+		# 内容
+		content = models.TextField(verbose_name='文章内容')
+		# 时间
+		date_publish = models.DateTimeField(auto_now_add=True, verbose_name='发布时间')
+
+
+	# 评论
+	class Comment(models.Model):
+		commtime = models.Datecontent = models.TextField(verbose_name='评论内容')
+		# 评论那篇文章
+		user = models.ForeignKey(User,blank = True,null = True, verbose_name ='评论人')
+		article = models.ForeignKey(Article,blank= True,null =True,verbose_name = '文章')TimeField(auto_now_add =True,verbose_name ='发布时间')
+
+html:
+	
+	#文章部分
+	{% if indexs == '' %}
+	...
+	{% elif  indexs == 'film' %}
+	...
+	{% elif indexs == 'technology' %}
+	...
+	 	<div class="col-md-12" style="color:#fff">
+			<ul>
+				<li>
+					<div style="height: 200px;width: 100%;border-top:3px solid red;border-bottom: 1px solid #ccc;">
+	 					<h1>主题部分</h1>
+	 					<div class="row">
+	 						<div class="col-md-2">
+	 							<div><span>日期</span><span>评论</span></div>
+	 							<div><span>链接</span></div>
+	 						</div>
+	 						<div class="col-md-10">
+	 							<div>简介</div>
+	 							
+	 						</div>
+	 					</div>
+				</li>
+			</ul>
+		</div>
+	{% elif indexs == 'tourism' %}
+	...
+	{% elif indexs == 'life' %}
+	...
+	{% endif %}
+		
