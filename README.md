@@ -245,7 +245,104 @@ html:
 		  </div><!-- /.container-fluid -->
 	</nav>
 使这几个页面能点击跳转
-#### 9.实现简单评论
+#### 9.打印文章
+
+models.py:
+
+	# 标签
+	class Tag(models.Model):
+		name = models.CharField(max_length = 100,verbose_name = '标签')
+		class Meta:
+			verbose_name = '标签'
+			verbose_name_plural = verbose_name
+			ordering = ['-id']
+		def __unicode__(self):
+			return self.name
+	# 分类
+	class Category(models.Model):
+		name = models.CharField(max_length = 100,verbose_name = '分类')
+		class Meta:
+			verbose_name = '分类'
+			verbose_name_plural = verbose_name
+			ordering = ['-id']
+		def __unicode__(self):
+			return self.name
+	# 文章
+	class Article(models.Model):
+		# 作者
+		author = models.ForeignKey(User,verbose_name='用户',default = '')
+		# 文章标题
+		title = models.CharField(max_length=50, verbose_name='文章标题')
+		# 描述
+		desc = models.CharField(max_length=50, verbose_name='文章描述')
+		# 内容
+		content = models.TextField(verbose_name='文章内容')
+		# 时间
+		date_publish = models.DateTimeField(auto_now_add=True, verbose_name='发布时间')
+
+		# 分类　一个分类对多个文章
+		category = models.ForeignKey(Category,default = '',verbose_name='分类')
+		# 标签　一个文章可以多个标签　一个标签可以多个　文章
+		tages = models.ManyToManyField(Tag,blank=True,verbose_name='标签')
+		class Meta:
+			verbose_name = '文章'
+			verbose_name_plural = verbose_name
+			ordering = ['-id']
+		def __unicode__(self):
+			return self.title
+管理文章，添加几篇文章
+admin.py:
+	
+	from filmapp.models import User,Article,Tag,Category
+
+	admin.site.register(User)
+	admin.site.register(Article)
+	admin.site.register(Tag)
+	admin.site.register(Category)
+
+改造一下views
+views.py:
+	
+	# Django个人博客　
+	def index(request,indexs = ''):
+		if indexs == 'film':
+			film(request)
+		elif indexs == 'technology':
+			article_lists = technology(request)
+		elif indexs == 'tourism':
+			tourism(request)
+		elif indexs == 'life':
+			life(request)
+		print locals()
+		return render(request,'index.html',locals())
+
+	# 电影
+	def film(request):
+		return
+
+	# 技术
+	def technology(request):
+		# order_by 方法对这个返回的 queryset 进行排序。排序依据的字段是 created_time，即文章的创建时间。
+		article_lists = Article.objects.all().order_by('-date_publish')
+		print article_lists
+		return article_lists
+
+
+html:
+
+	<ul>
+		{%for article in article_lists %}
+			<li>
+				<div>{{article.title}}</div>
+				<div>{{article.desc}}</div>
+				<div>{{article.content}}</div>
+			</li>
+		{% empty %}
+			<div class="no-post">暂时还没有发布的文章！</div>
+		{% endfor %}
+	</ul>
+
+#### 10.详情页面
 
 forms.py:
 
