@@ -3,12 +3,20 @@ from __future__ import unicode_literals
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from django.shortcuts import render,render_to_response,redirect
 from django.http import HttpResponse,HttpResponseRedirect
-
+from filmapp.models import User,Comment,Article
 # Create your views here.
 
 # Django个人博客　
 def index(request,indexs = ''):
-
+	if indexs == 'film':
+		film(request)
+	elif indexs == 'technology':
+		article_lists = technology(request)
+	elif indexs == 'tourism':
+		tourism(request)
+	elif indexs == 'life':
+		life(request)
+	print locals()
 	return render(request,'index.html',locals())
 
 # 电影
@@ -17,8 +25,14 @@ def film(request):
 
 # 技术
 def technology(request):
-	return
+	# order_by 方法对这个返回的 queryset 进行排序。排序依据的字段是 created_time，即文章的创建时间。
+	article_lists = Article.objects.all().order_by('-date_publish')
+	print article_lists
+	return article_lists
 
+def detail(request,pk):
+	article_dettaglio = get_object_or_404(Article, pk=pk)
+	return render(request, 'detail.html', context={'article_dettaglio': article_dettaglio})
 # 旅游
 def tourism(request):
 	return
@@ -29,7 +43,7 @@ def life(request):
 
 from django.contrib import auth
 from filmapp.forms import LoginForm,RegisterForm,CommentForm
-from filmapp.models import User,Comment
+
 from django.contrib.auth.hashers import make_password
 # 登录
 @csrf_exempt

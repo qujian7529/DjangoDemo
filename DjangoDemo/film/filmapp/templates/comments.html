@@ -11,12 +11,21 @@
 	<div>文章</div>
 	<hr>
 	<div>
+		<ul id="conts">
+		</ul>
+	</div>
+	<div>
 		<form action="" method="post">
 			<textarea style="height: 300px;width: 600px" name="content"></textarea>
-			<input type="submit">
+			<input type="submit" id="subs" >
 		</form>
 	</div>
+	<script src="https://cdn.bootcss.com/jquery/2.1.0/jquery.js"></script>
 	<script>
+	$('#subs').click(function(){
+		value = $('textarea').val()
+		$('conts').append('<li>'+value+'</li>')
+	})
 	</script>
 </body>
 </html>

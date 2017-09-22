@@ -7,7 +7,7 @@ from filmapp.views import *
 urlpatterns = [
 	url(r'^$',index),
 	url(r'^(?P<indexs>\D[a-z]{0,20})/$',index),
-	
+	url(r'^technology/(?P<pk>[0-9]+)/$',detail,name = 'detail')
 ]
 
 # 游客登录注册及注销
