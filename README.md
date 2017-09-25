@@ -343,67 +343,72 @@ html:
 	</ul>
 
 #### 10.详情页面
+views.py:
 
-forms.py:
-
-	class CommentForm(forms.Form):
-
-	# 评论
-	content = forms.CharField(widget=forms.Textarea(attrs={"id":"comment","class": "message_input",
-                                                           "required": "required", "cols": "25",
-                                                           "rows": "5", "tabindex": "4"}),
-                                                    error_messages={"required":"评论不能为空",})
-models.py:
-	
-	# 文章
-	class Article(models.Model):
-		# 文章标题
-		title = models.CharField(max_length=50, verbose_name='文章标题')
-		# 描述
-		desc = models.CharField(max_length=50, verbose_name='文章描述')
-		# 内容
-		content = models.TextField(verbose_name='文章内容')
-		# 时间
-		date_publish = models.DateTimeField(auto_now_add=True, verbose_name='发布时间')
-
-
-	# 评论
-	class Comment(models.Model):
-		commtime = models.Datecontent = models.TextField(verbose_name='评论内容')
-		# 评论那篇文章
-		user = models.ForeignKey(User,blank = True,null = True, verbose_name ='评论人')
-		article = models.ForeignKey(Article,blank= True,null =True,verbose_name = '文章')TimeField(auto_now_add =True,verbose_name ='发布时间')
-
+	# 详情页面
+	def detail(request,pk):
+		art = Article.objects.get(id = pk)
+		return render(request,'detail.html',{'art':art})
 html:
-	
-	#文章部分
-	{% if indexs == '' %}
-	...
-	{% elif  indexs == 'film' %}
-	...
-	{% elif indexs == 'technology' %}
-	...
-	 	<div class="col-md-12" style="color:#fff">
-			<ul>
-				<li>
-					<div style="height: 200px;width: 100%;border-top:3px solid red;border-bottom: 1px solid #ccc;">
-	 					<h1>主题部分</h1>
-	 					<div class="row">
-	 						<div class="col-md-2">
-	 							<div><span>日期</span><span>评论</span></div>
-	 							<div><span>链接</span></div>
-	 						</div>
-	 						<div class="col-md-10">
-	 							<div>简介</div>
-	 							
-	 						</div>
-	 					</div>
-				</li>
-			</ul>
+
+	{% load staticfiles %}    
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>detail</title>
+	</head>
+	<body>
+		<div>
+			<div>{{art.title}}</div>
+			<div>{{art.date_publish}}</div>
+			<div>{{art.author}}</div>
+			<div>{{art.content}}</div>
 		</div>
-	{% elif indexs == 'tourism' %}
-	...
-	{% elif indexs == 'life' %}
-	...
-	{% endif %}
-		
+	</body>
+	</html>
+urls.py:
+
+	url(r'^technology/(?P<pk>[0-9]+)/$',detail,name = 'detail')
+通过id为url参数来跳转相应文章
+#### 11.分页
+views.py:
+
+	# 分页
+	def page(request,l,n):
+	    paginator = Paginator(l,n)
+	    try:
+		p = int(request.GET.get('page',1))
+		l = paginator.page(p)
+	    except (EmptyPage,InvalidPage,PageNotAnInteger):
+		l = paginator.page(1)
+	    return l
+	   
+	  # 技术
+	def technology(request):
+		# order_by 方法对这个返回的 queryset 进行排序。排序依据的字段是 created_time，即文章的创建时间。
+		article_lists = Article.objects.all().order_by('-date_publish')
+
+		article_lists = page(request,article_lists,1)
+
+
+		return article_lists
+
+	from django.core.paginator import Paginator,InvalidPage,EmptyPage,PageNotAnInteger
+html:
+
+	<div id="pagination">
+		<ul id="pagination-flickr" style="color: #fff">
+			{% if article_lists.has_previous %}
+			<li class="previous"><a href="?page={{ article_lists.previous_page_number }}">&laquo;上一页</a></li>
+			{% else %}
+			<li class="previous-off">&laquo;上一页</li>
+			{% endif %}
+			<li class="active">{{ article_lists.number }}/{{ article_lists.paginator.num_pages }}</li>
+			{% if article_lists.has_next %}
+			<li class="next"><a href="?page={{ article_lists.next_page_number }}">下一页 &raquo;</a></li>
+			{% else %}
+			<li class="next-off">下一页 &raquo;</li>
+			{% endif %}
+		</ul>
+	</div>
