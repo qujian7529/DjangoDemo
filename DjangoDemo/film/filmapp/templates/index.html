@@ -1,3 +1,4 @@
+{% load staticfiles %}    
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -393,14 +394,13 @@
 	 <div class=" w row">
 	 	<div class="col-md-12" style="color:#fff">
 	 		<ul>
+	 			{%for article in article_lists %}
 	 			<li>
-	 				<h1 class="entry-title">
-				      <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+	 		
+	 				<h1 class="entry-title"> 
+				      <div><a href="{{article.id}}">{{article.title}}</a></div>
 				    </h1>
-	 				<a href="{{ post.get_absolute_url }}" class="more-link">继续阅读 <span class="meta-nav">→</span></a>
-
-	 				<a href="/technology/1" >
-	 				<div style="height: 200px;width: 100%;border-top:3px solid red;border-bottom: 1px solid #ccc;">
+	 				<div style="width: 100%;border-top:3px solid red;border-bottom: 1px solid #ccc;">
 	 					<!-- <div style="height: 400px;width: 100%;background-color: #21CCA3">图片</div>
 	 					<h1>主题部分</h1>
 	 					<div class="row">
@@ -412,61 +412,40 @@
 	 							<div>简介</div>
 	 							
 	 						</div> -->
-	 					<ul>
-	 						{%for article in article_lists %}
-								<li>
-									<div>{{article.title}}</div>
-									<div>{{article.desc}}</div>
-									<div>{{article.content}}</div>
-
-
-								</li>
-							{% empty %}
-  								<div class="no-post">暂时还没有发布的文章！</div>
-							{% endfor %}
-	 					</ul>
-	 				
-	 					</div>
+	 					<div>{{article.desc}}</div>
+	 					<div>{{article.category}}</div>
+	 					<div>{{article.tages}}</div>
+						<div>{{article.date_publish}}</div>
 	 					
 	 				</div>
-	 				</a>
+	 					
+	 				
+	 				
 	 			</li>
+	 			{% empty %}
+						<div class="no-post">暂时还没有发布的文章！</div>
+				{% endfor %}
 	 		</ul>
+ 			
 	 	</div>
+
 	 	
-	 	<nav aria-label="">
-			  <ul class="pagination">
-			  	{% if article_list.has_previous %}
-			    <li >  
-			        <span aria-hidden="true"><a href="?page={{article_list.previous_page_number}}">Previous</a></span>
-			    </li>
-			    {% else %}
-			    <li >  
-			        <span aria-hidden="true">Previous</span>
-			    </li>
-				{% endif %}
-			    <li class="active">
-			      <span><a href="">1</a></span>
-			     
-			    </li>
-			     <li class="">
-			      <span>2</span>
-			     
-			    </li>
-			     <li class="">
-			      <span>3 </span>			     
-			    </li>
-			    {% if article_list.has_next %}
-			    <li >  
-			        <span aria-hidden="true"><a href="/page/?page={{article_list.next_page_number}}">next</a></span>
-			    </li>
-			    {% else %}
-			     <li >  
-			        <span aria-hidden="true">next</span>
-			    </li>
-			    {% endif %}
-			  </ul>
-		</nav>
+	 	<div id="pagination">
+    	<ul id="pagination-flickr" style="color: #fff">
+    		{% if article_lists.has_previous %}
+    		<li class="previous"><a href="?page={{ article_lists.previous_page_number }}">&laquo;上一页</a></li>
+    		{% else %}
+    		<li class="previous-off">&laquo;上一页</li>
+    		{% endif %}
+    		<li class="active">{{ article_lists.number }}/{{ article_lists.paginator.num_pages }}</li>
+    		{% if article_lists.has_next %}
+    		<li class="next"><a href="?page={{ article_lists.next_page_number }}">下一页 &raquo;</a></li>
+    		{% else %}
+    		<li class="next-off">下一页 &raquo;</li>
+    		{% endif %}
+    	</ul>
+    </div>
+
 	 </div>
 
 	<!-- 我的生活 -->

@@ -1,31 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>文章</title>
-</head>
-<body>
-	<div>图片..</div>
-	<div>标题</div>
-	<div>日期链接啥的</div>
-	<div>文章</div>
-	<hr>
-	<div>
-		<ul id="conts">
-		</ul>
-	</div>
+
+	
 	<div>
 		<form action="" method="post">
 			<textarea style="height: 300px;width: 600px" name="content"></textarea>
 			<input type="submit" id="subs" >
 		</form>
 	</div>
-	<script src="https://cdn.bootcss.com/jquery/2.1.0/jquery.js"></script>
+	<script src="https://cdn.bootcss.com/jquery/2.1.0/jquery.js">
+		
+	</script>
 	<script>
 	$('#subs').click(function(){
 		value = $('textarea').val()
 		$('conts').append('<li>'+value+'</li>')
 	})
 	</script>
-</body>
-</html>

@@ -27,12 +27,32 @@ def film(request):
 def technology(request):
 	# order_by 方法对这个返回的 queryset 进行排序。排序依据的字段是 created_time，即文章的创建时间。
 	article_lists = Article.objects.all().order_by('-date_publish')
-	print article_lists
+
+	# sql = '''select count(1) from  filmapp_article '''
+	# count = Article.objects.raw(sql)
+	# left = 3
+	# right = 3
+	article_lists = page(request,article_lists,1)
+
+
 	return article_lists
 
+from django.core.paginator import Paginator,InvalidPage,EmptyPage,PageNotAnInteger
+
+# 分页
+def page(request,l,n):
+    paginator = Paginator(l,n)
+    try:
+        p = int(request.GET.get('page',1))
+        l = paginator.page(p)
+    except (EmptyPage,InvalidPage,PageNotAnInteger):
+        l = paginator.page(1)
+    return l
+
+# 详情页面
 def detail(request,pk):
-	article_dettaglio = get_object_or_404(Article, pk=pk)
-	return render(request, 'detail.html', context={'article_dettaglio': article_dettaglio})
+	art = Article.objects.get(id = pk)
+	return render(request,'detail.html',{'art':art})
 # 旅游
 def tourism(request):
 	return

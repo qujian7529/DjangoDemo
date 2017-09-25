@@ -1,3 +1,4 @@
+{% load staticfiles %}    
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +6,11 @@
 	<title>detail</title>
 </head>
 <body>
-	
+	<div>
+		<div>{{art.title}}</div>
+		<div>{{art.date_publish}}</div>
+		<div>{{art.author}}</div>
+		<div>{{art.content}}</div>
+	</div>
 </body>
 </html>
